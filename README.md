@@ -2,7 +2,7 @@
 
 A basic pager ViewController for Xamarin.iOS.
 
-![Documentation/PagerAnimation.gif](Documentation/PagerAnimation.gi)
+![Documentation/PagerAnimation.gif](Documentation/PagerAnimation.gif)
 
 ## Getting started
 
