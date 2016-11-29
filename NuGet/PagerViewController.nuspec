@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<package xmlns="http://schemas.microsoft.com/packaging/2010/07/nuspec.xsd">
+   <metadata minClientVersion="2.8.1">
+       <id>PagerViewController</id>
+       <version>$version$</version>
+       <title>PagerViewController</title>
+       <authors>Aloïs Deniel</authors>
+       <owners>Aloïs Deniel</owners>
+     <licenseUrl>https://github.com/aloisdeniel/PagerViewController/blob/master/LICENSE</licenseUrl>
+     <projectUrl>https://github.com/aloisdeniel/PagerViewController</projectUrl>
+     <iconUrl>https://raw.githubusercontent.com/aloisdeniel/PagerViewController/master/Documentation/Logo.png</iconUrl>
+       <requireLicenseAcceptance>false</requireLicenseAcceptance>
+       <description>A basic pager ViewController for Xamarin.iOS, with tabs at the top of the screen.</description>
+       <summary>A basic pager ViewController for Xamarin.iOS, with tabs at the top of the screen.</summary>
+     <tags>iOS, Xamarin, tabs, pager, viewpager, slide</tags>
+   </metadata>
+   <files>
+     <file src="..\Sources\PagerViewController\bin\Release\PagerViewController.dll" target="lib\Xamarin.iOS10\PagerViewController.dll" />
+   </files>
+</package>
