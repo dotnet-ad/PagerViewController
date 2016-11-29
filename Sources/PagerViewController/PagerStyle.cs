@@ -9,6 +9,73 @@
 	/// </summary>
 	public class PagerStyle
 	{
+		#region Default styles
+
+		public static PagerStyle Default => new PagerStyle();
+
+		public static PagerStyle NotAnimated => new PagerStyle()
+		{
+			SelectedStripAnimation = PagerStyle.StripAnimation.None,
+			SelectedStripStyle = PagerStyle.StripStyle.None,
+		};
+
+		public static PagerStyle Rounded => new PagerStyle()
+		{
+			SelectedStripSize = 5.0f,
+			SelectedStripMargin = 3.0f,
+			SelectedStripAnimation = PagerStyle.StripAnimation.Constant,
+			SelectedStripStyle = PagerStyle.StripStyle.Rounded,
+		};
+
+		public static PagerStyle Dot => new PagerStyle()
+		{
+			SelectedStripSize = 5.0f,
+			SelectedStripMargin = 3.0f,
+			SelectedStripStyle = PagerStyle.StripStyle.Dot,
+		};
+
+		public static PagerStyle Stretched => new PagerStyle(Default)
+		{
+			SelectedStripAnimation = PagerStyle.StripAnimation.Stretched,
+		};
+
+		public static PagerStyle DotNotAnimated => new PagerStyle(Dot)
+		{
+			SelectedStripAnimation = PagerStyle.StripAnimation.None,
+		};
+
+		public static PagerStyle RoundedNotAnimated => new PagerStyle(Rounded)
+		{
+			SelectedStripAnimation = PagerStyle.StripAnimation.None,
+		};
+
+		public static PagerStyle DotStretched => new PagerStyle(Dot)
+		{
+			SelectedStripAnimation = PagerStyle.StripAnimation.Stretched,
+		};
+
+		public static PagerStyle RoundedStretched => new PagerStyle(Rounded)
+		{
+			SelectedStripAnimation = PagerStyle.StripAnimation.Stretched,
+		};
+
+		#endregion
+
+		public enum StripStyle
+		{
+			None,
+			Rounded,
+			Dot,
+		}
+
+
+		public enum StripAnimation
+		{
+			None,
+			Constant,
+			Stretched,
+		}
+
 		/// <summary>
 		/// Initializes a new instance of the <see cref="T:Pager.PagerStyle"/> class.
 		/// </summary>
@@ -28,6 +95,10 @@
 			this.LabelFont = other.LabelFont;
 			this.SelectedStripSize = other.SelectedStripSize;
 			this.UnselectedLabelColor = other.UnselectedLabelColor;
+			this.SelectedStripStyle = other.SelectedStripStyle;
+			this.SelectedStripMargin = other.SelectedStripMargin;
+			this.SelectedStripAnimationDuration = other.SelectedStripAnimationDuration;
+			this.SelectedStripAnimation = other.SelectedStripAnimation;
 		}
 
 		/// <summary>
@@ -71,6 +142,30 @@
 		/// </summary>
 		/// <value>The size of the selected strip.</value>
 		public float SelectedStripSize { get; set; } = 2.0f;
+
+		/// <summary>
+		/// Gets or sets the selected strip style
+		/// </summary>
+		/// <value>The size of the selected strip.</value>
+		public StripStyle SelectedStripStyle { get; set; } = StripStyle.None;
+
+		/// <summary>
+		/// Gets or sets the selected strip animation mode.
+		/// </summary>
+		/// <value>The animation mode of the selected strip.</value>
+		public StripAnimation SelectedStripAnimation { get; set; } = StripAnimation.Constant;
+
+		/// <summary>
+		/// Gets or sets the selected strip bottom margin.
+		/// </summary>
+		/// <value>The size of the selected strip.</value>
+		public float SelectedStripMargin { get; set; } = 1.0f;
+
+		/// <summary>
+		/// Gets or sets the duration of the strip animation (in seconds).
+		/// </summary>
+		/// <value>The duration of the selected strip animation.</value>
+		public float SelectedStripAnimationDuration { get; set; } = 0.20f;
 
 		/// <summary>
 		/// Gets or sets the color of selected labels.

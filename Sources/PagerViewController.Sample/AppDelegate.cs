@@ -35,7 +35,7 @@ namespace Pager.Sample
 				new SamplePageViewController(colors[3]) { Title = "Last" },
 			};
 
-			var pager = new PagerViewController(new PagerStyle() { SelectedStripColors = colors }, pages);
+			var pager = new PagerViewController(new PagerStyle(PagerStyle.DotStretched) { SelectedStripColors = colors }, pages);
 
 			var nav = new UINavigationController(pager);
 			nav.NavigationBar.Translucent = false;
