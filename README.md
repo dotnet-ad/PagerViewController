@@ -4,6 +4,12 @@ A basic pager ViewController for Xamarin.iOS.
 
 ![Documentation/PagerAnimation.gif](Documentation/PagerAnimation.gif)
 
+## Install
+
+Available on NuGet
+
+[![NuGet](https://img.shields.io/nuget/v/PagerViewController.svg?label=NuGet)](https://www.nuget.org/packages/PagerViewController/)
+
 ## Getting started
 
 ```csharp
