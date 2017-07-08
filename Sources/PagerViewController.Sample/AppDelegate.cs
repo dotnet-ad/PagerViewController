@@ -1,4 +1,5 @@
-﻿using Foundation;
+﻿using System;
+using Foundation;
 using UIKit;
 using Pager;
 
@@ -36,6 +37,10 @@ namespace Pager.Sample
 			};
 
 			var pager = new PagerViewController(new PagerStyle(PagerStyle.DotStretched) { SelectedStripColors = colors }, pages);
+			pager.TabSelected += (sender, args) =>
+			{
+				Console.WriteLine($"TabSelected event -> Selected index: {args.SelectedIndex}");
+			};
 
 			var nav = new UINavigationController(pager);
 			nav.NavigationBar.Translucent = false;

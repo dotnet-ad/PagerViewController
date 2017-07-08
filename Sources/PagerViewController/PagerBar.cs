@@ -112,7 +112,7 @@
 
 		#region Methods
 
-		private void SelectAndRaise(int index, bool animated)
+		public void SelectAndRaise(int index, bool animated)
 		{
 			var oldValue = this.SelectedIndex;
 			this.Select(index, animated);

@@ -1,5 +1,6 @@
 ﻿namespace Pager
 {
+	using System;
 	using System.Linq;
 	using CoreGraphics;
 	using UIKit;
@@ -30,6 +31,18 @@
 		private UIViewController[] children;
 
 		private PagerBar bar;
+
+		#endregion
+
+		#region Events
+
+		public event EventHandler<TabSelectedEventArgs> TabSelected;
+
+		private void HandleTabSelected(UIViewController viewController, int index)
+		{
+			var handler = this.TabSelected;
+			handler?.Invoke(this, new TabSelectedEventArgs(viewController, index));
+		}
 
 		#endregion
 
@@ -76,6 +89,15 @@
 
 		#endregion
 
+		#region Public
+
+		public void SelectTab(int index, bool animated)
+		{
+			this.bar?.SelectAndRaise(index, animated);
+		}
+
+		#endregion
+
 		#region Tab selection
 
 		private void OnPageSwiped(object sender, UIPageViewFinishedAnimationEventArgs e)
@@ -84,13 +106,17 @@
 			{
 				var index = this.children.ToList().IndexOf(this.pager.ViewControllers[0]);
 				this.bar.Select(index, true);
+				HandleTabSelected(this.pager.ViewControllers[0], index);
 			}
 		}
 
 		private void OnTabSelected(object sender, PagerBar.ValueChangedEventArgs e)
 		{
 			var direction = (e.OldValue < e.NewValue) ? UIPageViewControllerNavigationDirection.Forward : UIPageViewControllerNavigationDirection.Reverse;
-			this.pager.SetViewControllers(new[] { children[e.NewValue] }, direction, true, s => { });
+			this.pager.SetViewControllers(new[] { children[e.NewValue] }, direction, true, s =>
+			{
+				HandleTabSelected(children[e.NewValue], e.NewValue);
+			});
 		}
 
 		#endregion
