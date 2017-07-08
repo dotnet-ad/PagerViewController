@@ -93,7 +93,22 @@
 
 		public void SelectTab(int index, bool animated)
 		{
-			this.bar?.SelectAndRaise(index, animated);
+			if (index >= 0)
+			{
+				this.bar?.SelectAndRaise(index, animated);
+			}
+		}
+
+		public void SelectTab(Type viewControllerType, bool animated)
+		{
+			var index = this.children.FirstOrDefault(e => e.GetType() == viewControllerType);
+			SelectTab(index, animated);
+		}
+
+		public void SelectTab(UIViewController viewController, bool animated)
+		{
+			var index = Array.IndexOf(this.children, viewController);
+			SelectTab(index, animated);
 		}
 
 		#endregion
