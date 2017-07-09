@@ -25,13 +25,35 @@
 			this.AddSubview(bottomBorder);
 
 			var frame = this.Bounds;
-			frame.Y = this.Bounds.Height - style.SelectedStripSize - border;
+			frame.Y = this.Bounds.Height - style.SelectedStripSize - style.SelectedStripMargin;
 			frame.Height = style.SelectedStripSize;
+
+			if (style.SelectedStripStyle == PagerStyle.StripStyle.Dot)
+			{
+				frame.Width = style.SelectedStripSize;
+			}
+
+			frame.X = (this.Bounds.Width / 2) - (frame.Width / 2);
+
 			this.selectedView = new UIView(frame)
 			{
 				BackgroundColor = GetStripColor(0),
-				AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleTopMargin | UIViewAutoresizing.FlexibleLeftMargin | UIViewAutoresizing.FlexibleRightMargin,
 			};
+
+			if (style.SelectedStripStyle == PagerStyle.StripStyle.Rounded || style.SelectedStripStyle == PagerStyle.StripStyle.Dot)
+			{
+				this.selectedView.Layer.CornerRadius = style.SelectedStripSize * 0.5f;
+			}
+
+			if (style.SelectedStripStyle == PagerStyle.StripStyle.Dot)
+			{
+				this.selectedView.AutoresizingMask = UIViewAutoresizing.FlexibleTopMargin | UIViewAutoresizing.FlexibleRightMargin | UIViewAutoresizing.FlexibleLeftMargin;
+			}
+			else
+			{
+				this.selectedView.AutoresizingMask = UIViewAutoresizing.FlexibleWidth | UIViewAutoresizing.FlexibleTopMargin | UIViewAutoresizing.FlexibleLeftMargin | UIViewAutoresizing.FlexibleRightMargin;
+			}
+
 			this.AddSubview(this.selectedView);
 		}
 
@@ -125,11 +147,14 @@
 
 			this.labels = new UILabel[this.sections.Length];
 
-			var tabSize = new CGSize(TabWidth, this.Bounds.Height - this.style.SelectedStripSize);
+			var tabSize = new CGSize(TabWidth, this.selectedView.Frame.Y);
 
-			var stripFrame = this.selectedView.Frame;
-			stripFrame.Width = tabSize.Width;
-			this.selectedView.Frame = stripFrame;
+			if (style.SelectedStripStyle != PagerStyle.StripStyle.Dot)
+			{
+				var stripFrame = this.selectedView.Frame;
+				stripFrame.Width = tabSize.Width;
+				this.selectedView.Frame = stripFrame;
+			}
 
 			for (int i = 0; i < this.sections.Length; i++)
 			{
@@ -173,20 +198,53 @@
 
 			// Strip
 
-			var frame = selectedView.Frame;
-			frame.Location = new CGPoint(frame.Size.Width * SelectedIndex, frame.Location.Y);
+			var y = this.selectedView.Frame.Y;
+			var x = TabWidth * SelectedIndex + (TabWidth / 2);
+			var height = this.selectedView.Frame.Height;
+			var width = TabWidth;
 
-			if (animated)
+			if (style.SelectedStripStyle == PagerStyle.StripStyle.Rounded)
 			{
-				UIView.Animate(0.20, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
+				width -= 2 * this.style.SelectedStripMargin;
+			}
+			else if (style.SelectedStripStyle == PagerStyle.StripStyle.Dot)
+			{
+				width = this.style.SelectedStripSize;
+			}
+
+			x -= width / 2;
+
+			var destination = new CGRect(x,y,width,height);
+
+			if (animated && this.style.SelectedStripAnimation != PagerStyle.StripAnimation.None)
+			{
+				if (this.style.SelectedStripAnimation == PagerStyle.StripAnimation.Stretched)
 				{
-					this.selectedView.Frame = frame;
-					this.selectedView.BackgroundColor = GetStripColor(SelectedIndex);
-				}, () => { });
+					var step = CGRect.Union(selectedView.Frame, destination);
+					var stepDuration = this.style.SelectedStripAnimationDuration / 2;
+					UIView.Animate(stepDuration, 0, UIViewAnimationOptions.CurveEaseIn, () => this.selectedView.Frame = step, () =>
+					{
+						UIView.Animate(stepDuration, 0, UIViewAnimationOptions.CurveEaseOut, () => this.selectedView.Frame = destination , () => { });
+					});
+
+					UIView.Animate(this.style.SelectedStripAnimationDuration, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
+					{
+						this.selectedView.BackgroundColor = GetStripColor(SelectedIndex);
+					}, () => { });
+				}
+				else if (this.style.SelectedStripAnimation == PagerStyle.StripAnimation.Constant)
+				{
+					UIView.Animate(this.style.SelectedStripAnimationDuration, 0, UIViewAnimationOptions.CurveEaseInOut, () =>
+					{
+						this.selectedView.Frame = destination;
+						this.selectedView.BackgroundColor = GetStripColor(SelectedIndex);
+					}, () => { });
+
+				}
 			}
 			else
 			{
-				this.selectedView.Frame = frame;
+				this.selectedView.Frame = destination;
 				this.selectedView.BackgroundColor = GetStripColor(SelectedIndex);
 			}
 		}
