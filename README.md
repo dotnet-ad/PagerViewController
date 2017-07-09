@@ -68,7 +68,7 @@ You can pickup one of the predefined styles.
 
 ![Documentation/PagerAnimation.gif](Documentation/Pager_Style_Dot.gif)
 
-`PagerStyle.DototAnimated`
+`PagerStyle.DotAnimated`
 
 ![Documentation/PagerAnimation.gif](Documentation/Pager_Style_DotNotAnimated.gif)
 
