@@ -94,6 +94,7 @@
 			this.BottomBorderColor = other.BottomBorderColor;
 			this.LabelFont = other.LabelFont;
 			this.SelectedStripSize = other.SelectedStripSize;
+			this.SelectedLabelColor = other.SelectedLabelColor;
 			this.UnselectedLabelColor = other.UnselectedLabelColor;
 			this.SelectedStripStyle = other.SelectedStripStyle;
 			this.SelectedStripMargin = other.SelectedStripMargin;
